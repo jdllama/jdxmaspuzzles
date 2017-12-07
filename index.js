@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
+const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
 
 express()
     .use(express.static(path.join(__dirname, 'public')))
