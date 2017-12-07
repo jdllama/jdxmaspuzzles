@@ -1,0 +1,20 @@
+{
+  "name": "jdxmaspuzzles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdllama/jdxmaspuzzles.git"
+  },
+  "author": "J.D. Lowe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdllama/jdxmaspuzzles/issues"
+  },
+  "homepage": "https://github.com/jdllama/jdxmaspuzzles#readme"
+}
