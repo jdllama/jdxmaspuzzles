@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/jdllama/jdxmaspuzzles/issues"
   },
-  "homepage": "https://github.com/jdllama/jdxmaspuzzles#readme"
+  "homepage": "https://github.com/jdllama/jdxmaspuzzles#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2"
+  }
 }
