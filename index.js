@@ -37,6 +37,7 @@ connection.query('SELECT * from puzzles;', function(err, rows, fields) {
   rows.forEach(function(row) {
     var name = row.name;
     var partial = "../partials/" + row.partialname;
+    console.log(partial)
     app.get("/" + name, function(req, res) {
       res.render("pages/puzzle", {partial: partial, name: name});
     });
