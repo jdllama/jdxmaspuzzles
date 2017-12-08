@@ -24,3 +24,23 @@ app.use(express.static(path.join(__dirname, 'public')))
   app.get("/", function(req, res) {
     res.render("pages/index", {});
   });
+
+var mysql = require('mysql');
+var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+connection.connect();
+
+connection.query('SELECT * from puzzles;', function(err, rows, fields) {
+  if (err) throw err;
+
+  //console.log('The solution is: ', rows[0].solution);
+  rows.forEach(function(row) {
+    var name = row.name;
+    var partial = row.partialname;
+    app.get("/" + name, function(req, res) {
+      res.render("pages/puzzle", {partial: partial, name: name});
+    });
+  });
+});
+
+connection.end();
