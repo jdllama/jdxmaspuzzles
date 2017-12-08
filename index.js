@@ -23,7 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
   app.get("/", function(req, res) {
     //SELECT COUNT(*) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining from puzzles;
-    console.log(req.cookies.username);
     res.render("pages/index", {message: "", username: req.cookies.username});
   });
 
@@ -42,7 +41,28 @@ var mysql = require('mysql');
       var partial = "../partials/" + row.partialname + ".ejs";
       var title = row.title;
       app.get("/" + name, function(req, res) {
-        res.render("pages/puzzle", {partial: partial, name: name, title: title});
+        res.render("pages/puzzle", {partial: partial, name: name, title: title, message: ""});
+      });
+
+      app.post("/" + name, function(req, res) {
+        var answer = req.body.answer;
+        if(!answer) answer="";
+        var username = req.cookies.username;
+        if(!username) username = "";
+
+        answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
+
+        username = JSOn.stringify(username).replace(/[^a-z]/gi, '');
+
+        var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+        connection.connect();
+        connection.query('SELECT COUNT(*) from puzzles where name = ? and answer = ?;', [name, answer], function(err, rows, fields) {
+          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rows[0] == 1});
+        });
+        connection.end();
+        //var idea = req.body.idea;
+        //if(!idea) idea = "";
       });
     });
   });
