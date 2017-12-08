@@ -22,6 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')))
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
   app.get("/", function(req, res) {
+    //SELECT COUNT(*) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining from puzzles;
+    console.log(req.cookies.username);
     res.render("pages/index", {message: ""});
   });
 
@@ -47,9 +49,6 @@ var mysql = require('mysql');
 
   connection.end();
 })();
-
-
-
 
 app.get("/random", function(req, res) {
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
