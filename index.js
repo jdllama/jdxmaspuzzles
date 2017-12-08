@@ -36,10 +36,7 @@ connection.query('SELECT * from puzzles;', function(err, rows, fields) {
   //console.log('The solution is: ', rows[0].solution);
   rows.forEach(function(row) {
     var name = row.name;
-    //var partial = "../partials/" + row.partialname + ".ejs";
-    //var partial = path.join(__dirname, "views/partials/" + row.partialname + "ejs");
-    var partial = "../partials/mbmbam.ejs"
-    console.log(partial)
+    var partial = "../partials/" + row.partialname + ".ejs"
     app.get("/" + name, function(req, res) {
       res.render("pages/puzzle", {partial: partial, name: name});
     });
