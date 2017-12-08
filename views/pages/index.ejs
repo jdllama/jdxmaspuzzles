@@ -8,7 +8,7 @@
 <body>
 <fieldset>
   <legend>Username</legend>
-  <input type="text" id="username" /><input type="button" onclick="document.cookie=document.getElementById('username').value" />
+  <input autocomplete="off" type="text" id="username" /><input value="Update Username" type="button" onclick="document.cookie='username=' + document.getElementById('username').value" />
 </fieldset>
   <%=message;%>
 </body>
