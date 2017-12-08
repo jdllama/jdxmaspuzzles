@@ -62,10 +62,10 @@ var mysql = require('mysql');
 
           connection.connect();
 
-          /*connection.query('INSERT INTO guesses ', [], function(err, rows, fields) {
-            
+          connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1}, function(err, rows, fields) {
+            console.log(err, rows);
           });
-          */
+          
           connection.end();
 
           res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1});
