@@ -26,11 +26,18 @@
 <br />
 <br />
 <h2>Guesses</h2>
-<br />
-Click here to view guesses: <input type="checkbox" id="showguesses" />
+Click here to view <%=guesses.length;%> guesses: <input type="checkbox" id="showguesses" />
 <ul>
 <% for(var i = 0;i<guesses.length;i++) {%>
-<li class="guess"><%=guesses[i].guess;%></li>
+<li class="guess">
+  <% if(guesses[i].didsolve == 1) { %>
+    <b>
+  <%}%>
+  <%=guesses[i].guess;%> guessed by <%=guesses[i].player;%>
+  <% if(guesses[i].didsolve == 1) { %>
+    </b>
+  <%}%>
+</li>
 <%}%>
 </ul>
 <br />
