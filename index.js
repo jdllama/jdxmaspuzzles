@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')))
   app.get("/", function(req, res) {
     //SELECT COUNT(*) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining from puzzles;
     console.log(req.cookies.username);
-    res.render("pages/index", {message: ""});
+    res.render("pages/index", {message: "", username: req.cookies.username});
   });
 
 var mysql = require('mysql');
