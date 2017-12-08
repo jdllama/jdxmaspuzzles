@@ -62,7 +62,7 @@ app.get("/random", function(req, res) {
       res.redirect("/" + rows[0].name);
     }
     else {
-      res.redirect("/", {message: "Nope!"})
+      res.redirect("./", {message: "Nope!"})
     }
   });
 
