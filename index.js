@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
 
 var app = express();
+var mysql = require('mysql');
 
 app.use(express.static(path.join(__dirname, 'public')))
     .set("views", path.join(__dirname, 'views'))
@@ -23,10 +24,19 @@ app.use(express.static(path.join(__dirname, 'public')))
 
   app.get("/", function(req, res) {
     //SELECT COUNT(*) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining from puzzles;
-    res.render("pages/index", {message: "", username: req.cookies.username});
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+    connection.connect();
+    connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining;', function(err, rows, fields) {
+      if (err) throw err;
+      console.dir(rows)
+      res.render("pages/index", {message: "", username: req.cookies.username});
+    });
+
+    connection.end();
+    
   });
 
-var mysql = require('mysql');
 (function() {
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
