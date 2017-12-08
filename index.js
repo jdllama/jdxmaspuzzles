@@ -51,7 +51,10 @@ app.use(express.static(path.join(__dirname, 'public')))
       var partial = "../partials/" + row.partialname + ".ejs";
       var title = row.title;
       app.get("/" + name, function(req, res) {
-        res.render("pages/puzzle", {partial: partial, name: name, title: title, message: ""});
+        var username = req.cookies.username;
+        if(!username) username = "";
+        username = JSON.stringify(username).replace(/[^a-z]/gi, '');
+        res.render("pages/puzzle", {partial: partial, name: name, title: title, message: "", username: username});
       });
 
       app.post("/" + name, function(req, res) {
