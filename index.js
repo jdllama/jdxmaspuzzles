@@ -4,8 +4,10 @@ const PORT = process.env.PORT || 5000;
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
 
-var app = express()
-    .use(express.static(path.join(__dirname, 'public')))
+var app = express();
+
+
+    app.use(express.static(path.join(__dirname, 'public')))
     .set("views", path.join(__dirname, 'views'))
     .set("view engine", "ejs")
     .use(bodyParser.urlencoded({ extended: false }))
