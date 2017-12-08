@@ -22,26 +22,49 @@ app.use(express.static(path.join(__dirname, 'public')))
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
   app.get("/", function(req, res) {
-    res.render("pages/index", {});
+    res.render("pages/index", {message: ""});
   });
 
 var mysql = require('mysql');
-var connection = mysql.createConnection(process.env.JAWSDB_URL);
+(function() {
+  var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
-connection.connect();
+  connection.connect();
 
-connection.query('SELECT * from puzzles;', function(err, rows, fields) {
-  if (err) throw err;
+  connection.query('SELECT * from puzzles;', function(err, rows, fields) {
+    if (err) throw err;
 
-  //console.log('The solution is: ', rows[0].solution);
-  rows.forEach(function(row) {
-    var name = row.name;
-    var partial = "../partials/" + row.partialname + ".ejs";
-    var title = row.title;
-    app.get("/" + name, function(req, res) {
-      res.render("pages/puzzle", {partial: partial, name: name, title: title});
+    //console.log('The solution is: ', rows[0].solution);
+    rows.forEach(function(row) {
+      var name = row.name;
+      var partial = "../partials/" + row.partialname + ".ejs";
+      var title = row.title;
+      app.get("/" + name, function(req, res) {
+        res.render("pages/puzzle", {partial: partial, name: name, title: title});
+      });
     });
   });
-});
 
-connection.end();
+  connection.end();
+})();
+
+
+
+
+app.get("/random", function(req, res) {
+  var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+  connection.connect();
+
+  connection.query('SELECT * from puzzles WHERE issolved = 0 ORDER BY RAND() LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;
+    if(rows.length) {
+      res.redirect("/" + rows[0]);
+    }
+    else {
+      res.redirect("/", {message: "Nope!"})
+    }
+  });
+
+  connection.end();
+});
