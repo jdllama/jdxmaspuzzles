@@ -58,11 +58,12 @@ app.get("/random", function(req, res) {
 
   connection.query('SELECT * from puzzles WHERE issolved = 0 ORDER BY RAND() LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
+    console.log(rows.length)
     if(rows.length) {
       res.redirect("/" + rows[0].name);
     }
     else {
-      res.redirect("./", {message: "Nope!"})
+      res.redirect("../", {message: "Nope!"})
     }
   });
 
