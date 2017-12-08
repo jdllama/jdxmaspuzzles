@@ -9,7 +9,7 @@
   display: none;
 }
 
-#showguesses:checked~.guess {
+#showguesses:checked~ul>li.guess {
   display: block;
 }
 </style>
@@ -30,7 +30,7 @@
 Click here to view guesses: <input type="checkbox" id="showguesses" />
 <ul>
 <% for(var i = 0;i<guesses.length;i++) {%>
-<li><span class="guess"><%=guesses[i].guess;%></span></li>
+<li class="guess"><%=guesses[i].guess;%></li>
 <%}%>
 </ul>
 <br />
