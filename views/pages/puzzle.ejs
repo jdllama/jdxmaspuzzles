@@ -4,6 +4,15 @@
 <title>
 <%=title;%>
 </title>
+<style>
+.guess {
+  display: none;
+}
+
+#showguesses:checked~.guess {
+  display: block;
+}
+</style>
 </head>
 <body>
 <%- include(partial) %>
@@ -18,9 +27,10 @@
 <br />
 <h2>Guesses</h2>
 <br />
+Click here to view guesses: <input type="checkbox" id="showguesses" />
 <ul>
 <% for(var i = 0;i<guesses.length;i++) {%>
-<li><%=guesses[i].guess;%></li>
+<li><span class="guess"><%=guesses[i].guess;%></span></li>
 <%}%>
 </ul>
 <br />
