@@ -54,14 +54,14 @@ var mysql = require('mysql');
 
         username = JSON.stringify(username).replace(/[^a-z]/gi, '');
 
-        console.log(answer)
-
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
         connection.connect();
-        connection.query('SELECT COUNT(*) from puzzles where name = ? and answer = ?;', [name, answer], function(err, rows, fields) {
-          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rows[0] == 1});
+        var test = connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [name, answer], function(err, rows, fields) {
+          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rows[0].count == 1});
         });
+
+        console.log(test.sql);
         connection.end();
         //var idea = req.body.idea;
         //if(!idea) idea = "";
