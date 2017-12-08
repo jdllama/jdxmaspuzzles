@@ -29,8 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')))
     connection.connect();
     connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining;', function(err, rows, fields) {
       if (err) throw err;
-      console.dir(rows)
-      res.render("pages/index", {message: "", username: req.cookies.username});
+      //console.dir(rows)
+      res.render("pages/index", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining});
     });
 
     connection.end();
