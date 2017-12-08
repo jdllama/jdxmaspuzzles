@@ -52,7 +52,7 @@ var mysql = require('mysql');
 
         answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
 
-        username = JSOn.stringify(username).replace(/[^a-z]/gi, '');
+        username = JSON.stringify(username).replace(/[^a-z]/gi, '');
 
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
