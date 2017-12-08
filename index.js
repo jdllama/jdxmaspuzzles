@@ -62,10 +62,13 @@ var mysql = require('mysql');
 
           connection.connect();
 
-          connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [], function(err, rows, fields) {
-            res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1});
+          /*connection.query('INSERT INTO guesses ', [], function(err, rows, fields) {
+            
           });
+          */
           connection.end();
+
+          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1});
         });
 
         connection.end();
