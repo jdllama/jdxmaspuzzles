@@ -57,14 +57,18 @@ var mysql = require('mysql');
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
         connection.connect();
-        var test = connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [name, answer], function(err, rows, fields) {
-          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rows[0].count == 1});
+        connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [name, answer], function(err, rowsTop, fields) {
+          var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+          connection.connect();
+
+          connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [], function(err, rows, fields) {
+            res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1});
+          });
+          connection.end();
         });
 
-        console.log(test.sql);
         connection.end();
-        //var idea = req.body.idea;
-        //if(!idea) idea = "";
       });
     });
   });
