@@ -54,6 +54,8 @@ var mysql = require('mysql');
 
         username = JSON.stringify(username).replace(/[^a-z]/gi, '');
 
+        console.log(answer)
+
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
         connection.connect();
