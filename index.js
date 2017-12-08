@@ -55,7 +55,6 @@ var mysql = require('mysql');
         username = JSON.stringify(username).replace(/[^a-z]/gi, '');
 
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
-
         connection.connect();
         connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [name, answer], function(err, rowsTop, fields) {
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -63,7 +62,7 @@ var mysql = require('mysql');
           connection.connect();
 
           connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-            console.log(err, rows);
+            //console.log(err, rows);
           });
           
           connection.end();
