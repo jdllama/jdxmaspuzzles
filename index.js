@@ -39,7 +39,7 @@ connection.query('SELECT * from puzzles;', function(err, rows, fields) {
     var partial = "../partials/" + row.partialname + ".ejs";
     var title = row.title;
     app.get("/" + name, function(req, res) {
-      res.render("pages/puzzle", {partial: partial, name: name});
+      res.render("pages/puzzle", {partial: partial, name: name, title: title});
     });
   });
 });
