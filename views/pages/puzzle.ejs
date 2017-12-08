@@ -16,6 +16,15 @@
 </form>
 <br />
 <br />
+<h2>Guesses</h2>
+<br />
+<ul>
+<% for(var i = 0;i<guesses.length;i++) {%>
+<li><%=guesses[i].guess;%></li>
+<%}%>
+</ul>
+<br />
+<br />
 <a href="../">Home</a> | <a href="../random">Random Puzzle</a>
 </body>
 </html>

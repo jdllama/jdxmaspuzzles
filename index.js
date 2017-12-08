@@ -53,8 +53,12 @@ app.use(express.static(path.join(__dirname, 'public')))
       app.get("/" + name, function(req, res) {
         var username = req.cookies.username;
         if(!username) username = "";
-        //username = JSON.stringify(username).replace(/[^a-z]/gi, '');
-        res.render("pages/puzzle", {partial: partial, name: name, title: title, message: "", username: username});
+        var connection = mysql.createConnection(process.env.JAWSDB_URL);
+        connection.connect();
+        connection.query('SELECT  * FROM guesses where puzzlename = ? ORDER BY `timestamp` DESC', [name], function(err, rowsTop, fields) {
+          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: "", username: username, guesses: rowsTop});
+        });
+        connection.end();
       });
 
       app.post("/" + name, function(req, res) {
@@ -75,12 +79,12 @@ app.use(express.static(path.join(__dirname, 'public')))
           connection.connect();
 
           connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-            //console.log(err, rows);
+            res.redirect("/" + name);
           });
           
           connection.end();
 
-          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
+          //res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
         });
 
         connection.end();
