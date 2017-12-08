@@ -80,7 +80,7 @@ app.use(express.static(path.join(__dirname, 'public')))
           
           connection.end();
 
-          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1});
+          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
         });
 
         connection.end();
