@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Metas
+</title>
+<style>
+.guess {
+  display: none;
+}
+
+#showguesses:checked~ul>li.guess {
+  display: block;
+}
+</style>
+</head>
+<body>
+<br />
+<br />
+There are a total of five meta puzzles to solve, using the data from the normal puzzles. They can be solved/entered in any order. They are:
+<ul>
+    <li>All around the world, statues crumble for me!</li>
+    <li>I come in threes, but no math involved.</li>
+    <li>This one is the product of a LOT of work, so put your math hat on!</li>
+    <li>Here's the thing about analogies: 9QrLurY (or 1MJoe)</li>
+    <li>Still working on this one.</li>
+</ul>
+<form method="POST">
+  <%=username;%> has a guess of <input type="text" placeholder="Meta Answer" name="answer" id="answer" />
+  <input type="submit" text="Submit">
+</form>
+<br />
+<br />
+<h2>Guesses</h2>
+Click here to view <%=guesses.length;%> guesses: <input type="checkbox" id="showguesses" />
+<ul>
+<% for(var i = 0;i<guesses.length;i++) {%>
+<li class="guess">
+  <% if(guesses[i].didsolve == 1) { %>
+    <b>
+  <%}%>
+  <%=guesses[i].guess;%> guessed by <%=guesses[i].player;%>
+  <% if(guesses[i].didsolve == 1) { %>
+    </b>
+  <%}%>
+</li>
+<%}%>
+</ul>
+<br />
+<br />
+<a href="../">Home</a> | <a href="../random">Random Puzzle</a>
+</body>
+</html>

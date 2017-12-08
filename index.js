@@ -23,18 +23,29 @@ app.use(express.static(path.join(__dirname, 'public')))
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
   app.get("/", function(req, res) {
-    //SELECT COUNT(*) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining from puzzles;
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
     connection.connect();
-    connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining;', function(err, rows, fields) {
+    connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta;', function(err, rows, fields) {
       if (err) throw err;
       //console.dir(rows)
-      res.render("pages/index", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining});
+      res.render("pages/index", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining, totalMeta: rows[0].totalMeta, remainingMeta: rows[0].remainingMeta});
     });
-
     connection.end();
+  });
+
+  app.get("/meta", function(req, res) {
+    res.render("pages/meta", {username: req.cookies.username, guesses: []});
+    return;
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
     
+    connection.connect();
+    connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta;', function(err, rows, fields) {
+      if (err) throw err;
+      //console.dir(rows)
+      res.render("pages/meta", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining, totalMeta: rows[0].totalMeta, remainingMeta: rows[0].remainingMeta});
+    });
+    connection.end();
   });
 
 (function() {
