@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 5000;
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
 
-express()
+let app = express()
     .use(express.static(path.join(__dirname, 'public')))
     .set("views", path.join(__dirname, 'views'))
     .set("view engine", "ejs")
@@ -19,3 +19,7 @@ express()
   next();
 })
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+  app.get("/", function(req, res) {
+    res.render("pages/index", {});
+  });
