@@ -43,7 +43,21 @@ app.use(express.static(path.join(__dirname, 'public')))
     connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta;', function(err, rows, fields) {
       if (err) throw err;
       //console.dir(rows)
-      res.render("pages/meta", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining, totalMeta: rows[0].totalMeta, remainingMeta: rows[0].remainingMeta});
+      res.render("pages/final", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining, totalMeta: rows[0].totalMeta, remainingMeta: rows[0].remainingMeta});
+    });
+    connection.end();
+  });
+
+  app.get("/final", function(req, res) {
+    res.render("pages/final", {username: req.cookies.username, guesses: []});
+    return;
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
+    
+    connection.connect();
+    connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta;', function(err, rows, fields) {
+      if (err) throw err;
+      //console.dir(rows)
+      res.render("pages/final", {message: "", username: req.cookies.username, total: rows[0].total, remaining: rows[0].remaining, totalMeta: rows[0].totalMeta, remainingMeta: rows[0].remainingMeta});
     });
     connection.end();
   });
