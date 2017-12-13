@@ -78,6 +78,7 @@ app.use(express.static(path.join(__dirname, 'public')))
       app.get("/" + name, function(req, res) {
         var username = req.cookies.username;
         if(!username) username = "";
+        console.log(req.query, req.query.success);
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
         connection.query('SELECT  * FROM guesses where puzzlename = ? ORDER BY `timestamp` DESC', [name], function(err, rowsTop, fields) {
