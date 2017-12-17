@@ -17,7 +17,7 @@
 <body>
     <fieldset>
         <legend>Username</legend>
-        <form method="POST" action="/setusername"><input autocomplete="off" type="text" id="username" value="<%=username;%>" /><input value="Update Username" type="submit" /></form>
+        <form method="POST" action="/setusername"><input autocomplete="off" type="text" id="username" name="username" value="<%=username;%>" /><input value="Update Username" type="submit" /></form>
       </fieldset>
   <h2><%=title;%></h2>
 <%- include(partial) %>
