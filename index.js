@@ -145,6 +145,7 @@ app.use(express.static(path.join(__dirname, 'public')))
           if(rowsTop[0].count == 1) {
             isRight = true;
             func();
+            sendSuccess(username, name, req.headers['x-forwarded-for']);
           }
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
