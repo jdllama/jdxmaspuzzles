@@ -100,7 +100,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
-        connection.query("UPDATE puzzles set issolved = 1 where puzzlename = ? and answer = ?", [name, answer], function(err, results, fields) {
+        connection.query("UPDATE puzzles set issolved = 1 where name = ? and answer = ?", [name, answer], function(err, results, fields) {
           if (err) throw err;
           var isRight = false;
           if(results.changedRows > 0) {
