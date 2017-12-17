@@ -78,11 +78,12 @@ app.use(express.static(path.join(__dirname, 'public')))
       app.get("/" + name, function(req, res) {
         var username = req.cookies.username;
         if(!username) username = "";
-        console.log(req.query, req.query.success);
+        var isRight = null;
+        if(req.query && req.query.isRight != undefined) isRight = req.query.isRight;
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
         connection.query('SELECT  * FROM guesses where puzzlename = ? ORDER BY `timestamp` DESC', [name], function(err, rowsTop, fields) {
-          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: "", username: username, guesses: rowsTop});
+          res.render("pages/puzzle", {partial: partial, name: name, title: title, message: "", username: username, guesses: rowsTop, isRight: isRight});
         });
         connection.end();
       });
@@ -99,7 +100,39 @@ app.use(express.static(path.join(__dirname, 'public')))
 
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
+        connection.query("UPDATE puzzles set issolved = 1 where puzzlename = ? and answer = ?", [name, answer], function(err, results, fields) {
+          if (err) throw err;
+          var isRight = false;
+          if(results.changedRows > 0) {
+            isRight = true;
+          }
+          var connection = mysql.createConnection(process.env.JAWSDB_URL);
+          
+          connection.connect();
+
+          connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
+            res.redirect("/" + name + "?isRight=" + isRight);
+          });
+          
+          connection.end();
+        });
+        connection.end();
+        /*
         connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [name, answer], function(err, rowsTop, fields) {
+          var func = function() {
+            var connection = mysql.createConnection(process.env.JAWSDB_URL);
+            
+            connection.connect();
+  
+            connection.query('UPDATE puzzles set issolved = 1 where puzzlename = ? and answer = ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
+              res.redirect("/" + name);
+            });
+            
+            connection.end();
+          }
+          if(rowsTop.length) {
+            func();
+          }
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
           connection.connect();
@@ -112,6 +145,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
           //res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
         });
+        */
 
         connection.end();
       });
