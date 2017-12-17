@@ -25,6 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')))
       }
       next();
     })
+    .post("/setusername", function(req, res) {
+      var backURL = req.header("Referer") || "/";
+      var username = req.body.username;
+      if(!username) username="";
+      res.cookie("username", username).redirect(backURL);
+    })
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
   app.get("/", function(req, res) {
@@ -101,31 +107,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
         answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
 
-        //username = JSON.stringify(username).replace(/[^a-z]/gi, '');
-
-        /*
-        var connection = mysql.createConnection(process.env.JAWSDB_URL);
-        connection.connect();
-        connection.query("UPDATE puzzles set issolved = 1 where name = ? and answer = ?", [name, answer], function(err, results, fields) {
-          if (err) throw err;
-          var isRight = false;
-          if(results.changedRows > 0) {
-            isRight = true;
-            sendSuccess(username, name, req.headers['x-forwarded-for']);
-          }
-          var connection = mysql.createConnection(process.env.JAWSDB_URL);
-          
-          connection.connect();
-
-          connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: results.changedRows > 0, guess: answer}, function(err, rows, fields) {
-            res.redirect("/" + name + "?isRight=" + isRight);
-          });
-          
-          connection.end();
-        });
-        connection.end();
-        */
-
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
         
@@ -156,10 +137,7 @@ app.use(express.static(path.join(__dirname, 'public')))
           });
           
           connection.end();
-
-          //res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
         });
-        
       });
     });
   });
