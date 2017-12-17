@@ -146,8 +146,6 @@ app.use(express.static(path.join(__dirname, 'public')))
           //res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
         });
         */
-
-        connection.end();
       });
     });
   });
