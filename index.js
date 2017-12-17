@@ -110,7 +110,7 @@ app.use(express.static(path.join(__dirname, 'public')))
           
           connection.connect();
 
-          connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
+          connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: results.changedRows > 0, guess: answer}, function(err, rows, fields) {
             res.redirect("/" + name + "?isRight=" + isRight);
           });
           
