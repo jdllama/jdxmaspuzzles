@@ -19,6 +19,12 @@
 <%- include(partial) %>
 <br />
 <br />
+<% if (isRight == "true") { %>
+  Your guess was correct!
+<% } %>
+<% if (isRight == "false") { %>
+  Your guess was incorrect.
+<% } %>
 <hr style="width:100%">
 Remember, all puzzle answers are only letters, no symbols or numbers.<br />
 <br />
