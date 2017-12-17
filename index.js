@@ -6,6 +6,11 @@ const bodyParser = require('body-parser');
 
 var app = express();
 var mysql = require('mysql');
+var request = require("request");
+
+function sendSuccess(username, puzzlename, IP) {
+  request.post(IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {});
+}
 
 app.use(express.static(path.join(__dirname, 'public')))
     .set("views", path.join(__dirname, 'views'))
@@ -105,6 +110,7 @@ app.use(express.static(path.join(__dirname, 'public')))
           var isRight = false;
           if(results.changedRows > 0) {
             isRight = true;
+            sendSuccess(username, name, req.headers['x-forwarded-for']);
           }
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
           
