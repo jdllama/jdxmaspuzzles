@@ -103,6 +103,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
         //username = JSON.stringify(username).replace(/[^a-z]/gi, '');
 
+        /*
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
         connection.query("UPDATE puzzles set issolved = 1 where name = ? and answer = ?", [name, answer], function(err, results, fields) {
@@ -123,20 +124,25 @@ app.use(express.static(path.join(__dirname, 'public')))
           connection.end();
         });
         connection.end();
-        /*
+        */
+
+        var connection = mysql.createConnection(process.env.JAWSDB_URL);
+        connection.connect();
+        
         connection.query('SELECT COUNT(*) as count from puzzles where name = ? and answer = ?;', [name, answer], function(err, rowsTop, fields) {
           var func = function() {
             var connection = mysql.createConnection(process.env.JAWSDB_URL);
             
             connection.connect();
   
-            connection.query('UPDATE puzzles set issolved = 1 where puzzlename = ? and answer = ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-              res.redirect("/" + name);
+            connection.query('UPDATE puzzles set issolved = 1 where name = ? and answer = ?', [name, answer], function(err, rows, fields) {
+              //res.redirect("/" + name);
             });
             
             connection.end();
           }
           if(rowsTop.length) {
+            isRight = true;
             func();
           }
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -144,14 +150,14 @@ app.use(express.static(path.join(__dirname, 'public')))
           connection.connect();
 
           connection.query('INSERT INTO guesses SET ?', {puzzlename: name, player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-            res.redirect("/" + name);
+            res.redirect("/" + name + "?isRight=" + isRight);
           });
           
           connection.end();
 
           //res.render("pages/puzzle", {partial: partial, name: name, title: title, message: rowsTop[0].count == 1, username: username});
         });
-        */
+        
       });
     });
   });
