@@ -141,6 +141,7 @@ app.use(express.static(path.join(__dirname, 'public')))
             
             connection.end();
           }
+          var isRight = false;
           if(rowsTop[0].count == 1) {
             isRight = true;
             func();
