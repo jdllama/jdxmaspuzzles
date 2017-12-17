@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var request = require("request");
 
 function sendSuccess(username, puzzlename, IP) {
-  request.post(IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {console.log(err, res, body)});
+  request.post(process.env.IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {console.log(err, res, body)});
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     .post("/setusername", function(req, res) {
       var backURL = req.header("Referer") || "/";
       var username = req.body.username;
-      if(!username) username="";
+      if(!username) username = "";
       res.cookie("username", username).redirect(backURL);
     })
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
@@ -81,7 +81,6 @@ app.use(express.static(path.join(__dirname, 'public')))
   connection.query('SELECT * from puzzles;', function(err, rows, fields) {
     if (err) throw err;
 
-    //console.log('The solution is: ', rows[0].solution);
     rows.forEach(function(row) {
       var name = row.name;
       var partial = "../partials/" + row.partialname + ".ejs";
