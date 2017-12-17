@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var request = require("request");
 
 function sendSuccess(username, puzzlename, IP) {
-  request.post(IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {});
+  request.post(IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {console.log(err, res, body)});
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
