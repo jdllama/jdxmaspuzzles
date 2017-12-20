@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
     connection.connect();
-    connection.query('SELECT name from puzzles where issolved = 0', function(err, topRows, fields) {
+    connection.query('SELECT name, title from puzzles where issolved = 0 ORDER BY name', function(err, topRows, fields) {
       var allGuessed = topRows;
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
 

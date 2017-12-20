@@ -30,7 +30,7 @@ Sorry, no one's solved any puzzles yet!
 Here are the currently solved ones:<br />
 <br />
   <% for(var i = 0;i<allGuessed.length;i++) { %>
-    <%=allGuessed[i].name;%><br />
+    <a href="/<%=allGuessed[i].name;%>" target="_blank"><%=allGuessed[i].title;%></a><br />
   <% } %>
 <% } %>
 </body>
