@@ -12,6 +12,10 @@ function sendSuccess(username, puzzlename, IP) {
   request.post(process.env.IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {console.log(err, res, body)});
 }
 
+function sendGuess(puzzlename, guess, IP) {
+  request.post(process.env.IFTTT_GUESS, {json: {value1: IP, value2: puzzlename, value3: guess}}, function(err, res, body) {console.log(err, res, body)});
+}
+
 app.use(express.static(path.join(__dirname, 'public')))
     .set("views", path.join(__dirname, 'views'))
     .set("view engine", "ejs")
@@ -29,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')))
       var backURL = req.header("Referer") || "/";
       var username = req.body.username;
       if(!username) username = "";
-      res.cookie("username", username).redirect(backURL);
+      res.cookie("username", username, {maxAge : 999999999}).redirect(backURL);
     })
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
@@ -90,6 +94,8 @@ app.use(express.static(path.join(__dirname, 'public')))
     if(!username) username = "";
 
     answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
+
+    sendGuess("meta", answer, req.headers['x-forwarded-for']);
 
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
     connection.connect();
@@ -196,6 +202,8 @@ app.use(express.static(path.join(__dirname, 'public')))
         if(!username) username = "";
 
         answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
+
+        sendGuess(name, answer, req.headers['x-forwarded-for']);
 
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
