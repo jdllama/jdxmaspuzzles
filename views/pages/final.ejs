@@ -212,7 +212,15 @@ There's a message here that stretches across all kinds of languages...Japanese, 
 
 
 
-
+<% if (isRight == "true") { %>
+  Your guess was correct!
+<% } %>
+<% if (isRight == "false") { %>
+  Your guess was incorrect.
+<% } %>
+<hr style="width:100%">
+Remember, all puzzle answers are only letters, no symbols or numbers.<br />
+<br />
 <form id="myForm" method="POST">
   <%=username;%> has a guess of <input type="text" placeholder="Meta Answer" name="answer" id="answer" />
   <input type="submit" text="Submit">
