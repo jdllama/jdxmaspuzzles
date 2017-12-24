@@ -149,6 +149,48 @@ app.use(express.static(path.join(__dirname, 'public')))
     connection.end();
   });
 
+  app.post("/final", function(req, res) {
+    var answer = req.body.answer;
+    if(!answer) answer="";
+    var username = req.cookies.username;
+    if(!username) username = "";
+
+    answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
+
+    sendGuess("final", answer, req.headers['x-forwarded-for']);
+
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
+    connection.connect();
+    
+    connection.query('SELECT COUNT(*) as count from final where answer = ?;', [answer], function(err, rowsTop, fields) {
+      var func = function() {
+        var connection = mysql.createConnection(process.env.JAWSDB_URL);
+        
+        connection.connect();
+
+        connection.query('UPDATE final set issolved = 1 where answer = ?', [answer], function(err, rows, fields) { });
+        
+        connection.end();
+      }
+      var isRight = false;
+      if(rowsTop[0].count == 1) {
+        isRight = true;
+        func();
+        sendSuccess(username, "final - " + answer, req.headers['x-forwarded-for']);
+      }
+      var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+      connection.connect();
+
+      connection.query('INSERT INTO guesses SET ?', {puzzlename: "final", player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
+        res.redirect("/final?isRight=" + isRight);
+      });
+      
+      connection.end();
+    });
+    connection.end();
+  });
+
 (function() {
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
