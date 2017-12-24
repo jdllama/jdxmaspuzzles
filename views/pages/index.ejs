@@ -6,21 +6,19 @@
   </title>
 </head>
 <body style="padding-left: 370px;">
-<!--fieldset>
-  <legend>Username</legend>
-  <form method="POST" action="/setusername"><input autocomplete="off" type="text" name="username" id="username" value="<%=username;%>" /><input value="Update Username" type="submit" /></form>
-</fieldset>
-<br />
-<br / -->
 Hello and welcome to a puzzle of fun and of mystery fun!<br />
 <br />
-So here's how this works. <b><a href="./random">Click here</a></b> for a random puzzle. You will get a currently unsolved puzzle. If there are no unsolved puzzles left, the page will break.<br />
+So here's how this works. <b><a href="./random">Click here</a></b> for a random puzzle. You will get a currently unsolved puzzle. Don't like the puzzle? There'll be another random puzzle link at the bottom of that page. If there are no unsolved puzzles left, the page will break.<br />
 <br />
 You will use what you get to solve the Meta puzzles. Once you have those solved, you use that to solve the final puzzle.<br />
 <br />
+This puzzle uses cookies to track who you are, as well as your IP address. This is not sold to any companies and is only tracked for the puzzle's sake, as well as to verify no one is trying to hack the site.<br />
+<br />
+On each page at the top is a box for your username. Please make sure this is your Discord username; it's alright if it isn't, but again, it helps track.<br />
+<br />
 Teamwork is not required, but is encouraged. However, the first five people who solve the final puzzle will receive a small prize!<br />
 <br />
-There are currently <%=remaining;%> out of <%=total;%> puzzles, <%=remainingMeta;%> out of <%=totalMeta;%> Meta, and <%=remainingFinal;%> out of <%=totalFinal;%> final puzzles unsolved. The meta puzzles can be found <a href="/meta">here.</a> The final puzzle is <a href="/final">here.</a> Want a random puzzle, click <a href="/random">here!</a><br />
+There are currently <%=remaining;%> out of <%=total;%> puzzles, <%=remainingMeta;%> out of <%=totalMeta;%> Meta, and <%=remainingFinal;%> out of <%=totalFinal;%> final puzzles unsolved. The meta puzzles can be found <a href="/meta">here.</a> The final puzzle is <a href="/final">here.</a>
 <br />
 Quick tips:<br />
 <br />
@@ -28,7 +26,8 @@ None of the puzzles require brute forcing or trying to hack this site. If any of
 <br />
 Furthermore, to save you a headache, there are no hints on this page, and if there is a bitly then you will be clued to it. I swear.<br />
 <br />
-Also, to keep things easy for spoilers, there's a Discord <a href="http://discord.gg/8AMPd4A" target="_blank">here</a> to chat / work on puzzles together.
+Also, to keep things easy for spoilers, there's a Discord <a href="http://discord.gg/8AMPd4A" target="_blank">here</a> to chat / work on puzzles together. Pinned in the general chat is a Google sheet to work together on.<br />
+<br /><br />
 <br />
 <% if(allGuessed.length == 0) { %>
 Sorry, no one's solved any puzzles yet!
