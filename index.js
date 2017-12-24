@@ -9,11 +9,11 @@ var mysql = require('mysql');
 var request = require("request");
 
 function sendSuccess(username, puzzlename, IP) {
-  request.post(process.env.IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {console.log(err, res, body)});
+  request.post(process.env.IFTTT_SOLVE, {json: {value1: username, value2: puzzlename, value3: IP}}, function(err, res, body) {});
 }
 
 function sendGuess(puzzlename, guess, IP) {
-  request.post(process.env.IFTTT_GUESS, {json: {value1: IP, value2: puzzlename, value3: guess}}, function(err, res, body) {console.log(err, res, body)});
+  request.post(process.env.IFTTT_GUESS, {json: {value1: IP, value2: puzzlename, value3: guess}}, function(err, res, body) {});
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -48,7 +48,6 @@ app.use(express.static(path.join(__dirname, 'public')))
       connection.connect();
       connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
         if (err) throw err;
-        //console.dir(rows)
         res.render("pages/index", {message: "", username: req.cookies.username, allGuessed: topRows, total: rows[0].total, remaining: rows[0].remaining, totalMeta: rows[0].totalMeta, remainingMeta: rows[0].remainingMeta, totalFinal: rows[0].totalFinal, remainingFinal: rows[0].remainingFinal});
       });
       connection.end();
@@ -300,13 +299,25 @@ app.get("/random", function(req, res) {
 
   connection.query('SELECT * from puzzles WHERE issolved = 0 ORDER BY RAND() LIMIT 1;', function(err, rows, fields) {
     if (err) throw err;
-    console.log(rows.length)
     if(rows.length) {
       res.redirect("/" + rows[0].name);
     }
     else {
       res.sendStatus(404);
     }
+  });
+
+  connection.end();
+});
+
+app.get("/truerandom", function(req, res) {
+  var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+  connection.connect();
+
+  connection.query('SELECT * from puzzles ORDER BY RAND() LIMIT 1;', function(err, rows, fields) {
+    if (err) throw err;
+    res.redirect("/" + rows[0].name);
   });
 
   connection.end();
