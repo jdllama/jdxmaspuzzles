@@ -69,6 +69,7 @@ app.use(express.static(path.join(__dirname, 'public')))
         res.render("pages/meta", {
           username: req.cookies.username, 
           guesses: rowsTop, 
+          isRight: isRight,
           total: rows[0].total, 
           remaining: rows[0].remaining, 
           totalMeta: rows[0].totalMeta, 
