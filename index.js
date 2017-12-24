@@ -182,14 +182,15 @@ app.use(express.static(path.join(__dirname, 'public')))
         isRight = true;
         func();
         sendSuccess(username, "final - " + answer, req.headers['x-forwarded-for']);
-        return res.render("pages/congrats");
+        //return res.render("pages/congrats");
       }
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
       connection.connect();
 
       connection.query('INSERT INTO guesses SET ?', {puzzlename: "final", player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-        res.redirect("/final");
+        if(isRight == true) res.render("pages/congrats");
+        else res.redirect("/final");
       });
       
       connection.end();
