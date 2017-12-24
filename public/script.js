@@ -4,7 +4,7 @@ window.getCookie = function(name) {
   }
   
 
-document.onload = function() {
+window.onload = function() {
     /*
     document.getElementById("myForm").onsubmit = function() {
 
