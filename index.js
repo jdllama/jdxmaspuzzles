@@ -54,21 +54,72 @@ app.use(express.static(path.join(__dirname, 'public')))
   });
 
   app.get("/meta", function(req, res) {
+    var username = req.cookies.username;
+    if(!username) username = "";
+    var isRight = null;
+    if(req.query && req.query.isRight != undefined) isRight = req.query.isRight;
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
-
     connection.connect();
-    connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
-      if (err) throw err;
-      res.render("pages/meta", {
-        username: req.cookies.username, 
-        guesses: [], 
-        total: rows[0].total, 
-        remaining: rows[0].remaining, 
-        totalMeta: rows[0].totalMeta, 
-        remainingMeta: rows[0].remainingMeta,
-        totalFinal: rows[0].totalFinal, 
-        remainingFinal: rows[0].remainingFinal,
+    connection.query('SELECT * FROM guesses where puzzlename = ? ORDER BY `timestamp` DESC', ["meta"], function(err, rowsTop, fields) {
+      var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+      connection.connect();
+      connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
+        if (err) throw err;
+        res.render("pages/meta", {
+          username: req.cookies.username, 
+          guesses: rowsTop, 
+          total: rows[0].total, 
+          remaining: rows[0].remaining, 
+          totalMeta: rows[0].totalMeta, 
+          remainingMeta: rows[0].remainingMeta,
+          totalFinal: rows[0].totalFinal, 
+          remainingFinal: rows[0].remainingFinal,
+        });
       });
+      connection.end();
+    });
+    connection.end();
+  });
+
+  app.post("/meta", function(req, res) {
+    var answer = req.body.answer;
+    if(!answer) answer="";
+    var username = req.cookies.username;
+    if(!username) username = "";
+
+    answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
+
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
+    connection.connect();
+    
+    connection.query('SELECT COUNT(*) as count from metas where answer = ?;', [answer], function(err, rowsTop, fields) {
+      var func = function() {
+        var connection = mysql.createConnection(process.env.JAWSDB_URL);
+        
+        connection.connect();
+
+        connection.query('UPDATE metas set issolved = 1 where answer = ?', [answer], function(err, rows, fields) {
+          //res.redirect("/" + name);
+        });
+        
+        connection.end();
+      }
+      var isRight = false;
+      if(rowsTop[0].count == 1) {
+        isRight = true;
+        func();
+        sendSuccess(username, name, req.headers['x-forwarded-for']);
+      }
+      var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+      connection.connect();
+
+      connection.query('INSERT INTO guesses SET ?', {puzzlename: "meta", player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
+        res.redirect("/" + name + "?isRight=" + isRight);
+      });
+      
+      connection.end();
     });
     connection.end();
   });
@@ -79,7 +130,6 @@ app.use(express.static(path.join(__dirname, 'public')))
     connection.connect();
     connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
       if (err) throw err;
-      //console.dir(rows)
       res.render("pages/final", {
         username: req.cookies.username, 
         guesses: [], 
@@ -113,7 +163,7 @@ app.use(express.static(path.join(__dirname, 'public')))
         if(req.query && req.query.isRight != undefined) isRight = req.query.isRight;
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
         connection.connect();
-        connection.query('SELECT  * FROM guesses where puzzlename = ? ORDER BY `timestamp` DESC', [name], function(err, rowsTop, fields) {
+        connection.query('SELECT * FROM guesses where puzzlename = ? ORDER BY `timestamp` DESC', [name], function(err, rowsTop, fields) {
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
           connection.connect();
@@ -179,6 +229,7 @@ app.use(express.static(path.join(__dirname, 'public')))
           
           connection.end();
         });
+        connection.end();
       });
     });
   });
