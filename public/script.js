@@ -12,6 +12,7 @@ document.onload = function() {
         return true;
     }
     */
+    console.log("Yes?");
     document.getElementById("myForm").addEventListener("submit", function(event) {
         event.preventDefault();
         alert(getCookie("username"));
