@@ -174,6 +174,7 @@ app.use(express.static(path.join(__dirname, 'public')))
       }
       var isRight = false;
       if(rowsTop[0].count == 1) {
+        return res.render("pages/congrats")
         isRight = true;
         func();
         sendSuccess(username, "final - " + answer, req.headers['x-forwarded-for']);
