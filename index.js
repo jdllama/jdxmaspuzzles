@@ -130,6 +130,9 @@ app.use(express.static(path.join(__dirname, 'public')))
   });
 
   app.get("/final", function(req, res) {
+
+    var isRight = null;
+    if(req.query && req.query.isRight != undefined) isRight = req.query.isRight;
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
     connection.connect();
