@@ -116,7 +116,7 @@ app.use(express.static(path.join(__dirname, 'public')))
       connection.connect();
 
       connection.query('INSERT INTO guesses SET ?', {puzzlename: "meta", player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-        res.redirect("/" + name + "?isRight=" + isRight);
+        res.redirect("/meta?isRight=" + isRight);
       });
       
       connection.end();
