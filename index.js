@@ -99,9 +99,7 @@ app.use(express.static(path.join(__dirname, 'public')))
         
         connection.connect();
 
-        connection.query('UPDATE metas set issolved = 1 where answer = ?', [answer], function(err, rows, fields) {
-          //res.redirect("/" + name);
-        });
+        connection.query('UPDATE metas set issolved = 1 where answer = ?', [answer], function(err, rows, fields) { });
         
         connection.end();
       }
@@ -109,7 +107,7 @@ app.use(express.static(path.join(__dirname, 'public')))
       if(rowsTop[0].count == 1) {
         isRight = true;
         func();
-        sendSuccess(username, name, req.headers['x-forwarded-for']);
+        sendSuccess(username, "meta", req.headers['x-forwarded-for']);
       }
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
