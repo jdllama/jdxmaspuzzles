@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 if(true) {
   app.get("/", function(req, res) {
-    pages.render("pages/start")
+    res.render("pages/start");
   })
 }
 else {
