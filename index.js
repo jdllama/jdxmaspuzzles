@@ -141,6 +141,7 @@ app.use(express.static(path.join(__dirname, 'public')))
       res.render("pages/final", {
         username: req.cookies.username, 
         guesses: [], 
+        isRight: isRight,
         total: rows[0].total, 
         remaining: rows[0].remaining, 
         totalMeta: rows[0].totalMeta, 
@@ -177,17 +178,18 @@ app.use(express.static(path.join(__dirname, 'public')))
       }
       var isRight = false;
       if(rowsTop[0].count == 1) {
-        return res.render("pages/congrats")
+        
         isRight = true;
         func();
         sendSuccess(username, "final - " + answer, req.headers['x-forwarded-for']);
+        return res.render("pages/congrats");
       }
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
       connection.connect();
 
       connection.query('INSERT INTO guesses SET ?', {puzzlename: "final", player: username, didsolve: rowsTop[0].count == 1, guess: answer}, function(err, rows, fields) {
-        res.redirect("/final?isRight=" + isRight);
+        res.redirect("/final");
       });
       
       connection.end();
