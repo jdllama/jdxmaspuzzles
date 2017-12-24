@@ -6,15 +6,19 @@
   </title>
 </head>
 <body style="padding-left: 370px;">
-<fieldset>
+<!--fieldset>
   <legend>Username</legend>
   <form method="POST" action="/setusername"><input autocomplete="off" type="text" name="username" id="username" value="<%=username;%>" /><input value="Update Username" type="submit" /></form>
 </fieldset>
 <br />
-<br />
+<br / -->
 Hello and welcome to a puzzle of fun and of mystery fun!<br />
 <br />
-So here's how this works. 
+So here's how this works. <b><a href="./random">Click here</a></b> for a random puzzle. You will get a currently unsolved puzzle. If there are no unsolved puzzles left, the page will break.<br />
+<br />
+You will use what you get to solve the Meta puzzles. Once you have those solved, you use that to solve the final puzzle.<br />
+<br />
+Teamwork is not required, but is encouraged. However, the first five people who solve the final puzzle will receive a small prize!<br />
 <br />
 There are currently <%=remaining;%> out of <%=total;%> puzzles, <%=remainingMeta;%> out of <%=totalMeta;%> Meta, and <%=remainingFinal;%> out of <%=totalFinal;%> final puzzles unsolved. The meta puzzles can be found <a href="/meta">here.</a> The final puzzle is <a href="/final">here.</a> Want a random puzzle, click <a href="/random">here!</a><br />
 <br />
