@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     })
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-if(true) {
+if(false) {
   app.get("/", function(req, res) {
     res.render("pages/start");
   })
