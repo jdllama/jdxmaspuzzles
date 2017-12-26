@@ -338,4 +338,21 @@ else {
 
     connection.end();
   });
+
+  app.get("/firstsolves", function(req, res) {
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+    connection.connect();
+
+    connection.query('SELECT puzzle.answer, puzzle.name, (select guesses.player from guesses as guesses where guesses.puzzlename = puzzle.name and guesses.didsolve = 1 ORDER BY guesses.timestamp LIMIT 1) as playername from puzzles as puzzle ORDER by puzzle.name;', function(err, rows, fields) {
+      if (err) throw err;
+      //res.redirect("/" + rows[0].name);
+      var answers = rows.filter(function(el) { return el.playername != null;})
+      res.render("pages/firstsolve", {
+        answers: answers
+      });
+    });
+
+    connection.end();
+  })
 }
