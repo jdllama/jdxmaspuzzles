@@ -238,7 +238,9 @@ else {
       rows.forEach(function(row) {
         var name = row.name;
         var partial = "../partials/" + row.partialname + ".ejs";
+        var solutionPath = "../solutions/" + row.partialname + ".ejs";
         var title = row.title;
+        var answer = row.answer;
         app.get("/" + name, function(req, res) {
           var username = req.cookies.username;
           if(!username) username = "";
@@ -277,7 +279,13 @@ else {
         app.get("/" + name + "/ShowMeTheSolution", function(req, res) {
           var solutionPath = "views/solutions/" + name + ".ejs";
           if(require("fs").existsSync(solutionPath)) {
-            res.render("solutions/" + name + ".ejs");
+            //res.render("solutions/" + name + ".ejs");
+            res.render("/pages/solution", {
+              partial: solutionPath,
+              name: name,
+              title: title,
+              answer: answer,
+            })
           }
           else {
             res.status(404).send("Sorry, this solution has not yet been written / uploaded.");
