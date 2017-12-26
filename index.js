@@ -73,7 +73,7 @@ else {
         var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
         connection.connect();
-        connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
+        connection.query('SELECT (SELECT bool from show_solutions LIMIT 1) as show_solutions, (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
           if (err) throw err;
           res.render("pages/meta", {
             username: req.cookies.username, 
@@ -85,6 +85,7 @@ else {
             remainingMeta: rows[0].remainingMeta,
             totalFinal: rows[0].totalFinal, 
             remainingFinal: rows[0].remainingFinal,
+            show_solutions: rows[0].show_solutions,
           });
         });
         connection.end();
@@ -141,18 +142,19 @@ else {
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
       connection.connect();
-      connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
+      connection.query('SELECT (SELECT bool from show_solutions LIMIT 1) as show_solutions, (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
         if (err) throw err;
         res.render("pages/final", {
           username: req.cookies.username, 
           guesses: [], 
           isRight: isRight,
-          total: rows[0].total, 
+          total: rows[0].total,
           remaining: rows[0].remaining, 
           totalMeta: rows[0].totalMeta, 
           remainingMeta: rows[0].remainingMeta,
           totalFinal: rows[0].totalFinal, 
           remainingFinal: rows[0].remainingFinal,
+          show_solutions: rows[0].show_solutions,
         });
       });
       connection.end();
@@ -226,7 +228,7 @@ else {
             var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
             connection.connect();
-            connection.query('SELECT (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
+            connection.query('SELECT (SELECT bool from show_solutions LIMIT 1) as show_solutions, (SELECT COUNT(*) from puzzles) as total, (SELECT COUNT(*) from puzzles where issolved = 0) as remaining, (SELECT COUNT(*) from metas) as totalMeta, (SELECT COUNT(*) from metas where issolved = 0) as remainingMeta, (SELECT COUNT(*) from final) as totalFinal, (SELECT COUNT(*) from final where issolved = 0) as remainingFinal;', function(err, rows, fields) {
               if (err) throw err;
               res.render("pages/puzzle", {
                 partial: partial, 
@@ -242,6 +244,7 @@ else {
                 remainingMeta: rows[0].remainingMeta, 
                 totalFinal: rows[0].totalFinal, 
                 remainingFinal: rows[0].remainingFinal,
+                show_solutions: rows[0].show_solutions,
               });
             });
             connection.end();
