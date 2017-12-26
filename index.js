@@ -93,6 +93,16 @@ else {
       connection.end();
     });
 
+    app.get("/meta/ShowMeTheSolution", function(req, res) {
+      var solutionPath = "views/solutions/meta.ejs";
+      if(require("fs").existsSync(solutionPath)) {
+        res.render("solutions/meta.ejs");
+      }
+      else {
+        res.status(404).send("Sorry, this solution has not yet been written / uploaded.");
+      }
+    });
+
     app.post("/meta", function(req, res) {
       var answer = req.body.answer;
       if(!answer) answer="";
@@ -158,6 +168,16 @@ else {
         });
       });
       connection.end();
+    });
+
+    app.get("/final/ShowMeTheSolution", function(req, res) {
+      var solutionPath = "views/solutions/final.ejs";
+      if(require("fs").existsSync(solutionPath)) {
+        res.render("solutions/final.ejs");
+      }
+      else {
+        res.status(404).send("Sorry, this solution has not yet been written / uploaded.");
+      }
     });
 
     app.post("/final", function(req, res) {
@@ -258,7 +278,7 @@ else {
             res.render("solutions/" + name + ".ejs");
           }
           else {
-            res.sendStatus(404);
+            res.status(404).send("Sorry, this solution has not yet been written / uploaded.");
           }
         });
 

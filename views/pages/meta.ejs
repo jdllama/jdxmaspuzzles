@@ -15,6 +15,9 @@ Metas
 </style>
 </head>
 <body>
+    <% if (show_solutions == 1) { %>
+      <a href="./ShowMeTheSolution/">Solution</a>
+      <% } %>
     <fieldset>
         <legend>Username</legend>
         <form method="POST" action="/setusername"><input autocomplete="off" type="text" id="username" name="username" value="<%=username;%>" /><input value="Update Username" type="submit" /></form>
