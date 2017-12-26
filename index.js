@@ -86,6 +86,7 @@ else {
             totalFinal: rows[0].totalFinal, 
             remainingFinal: rows[0].remainingFinal,
             show_solutions: rows[0].show_solutions,
+            name: "meta",
           });
         });
         connection.end();
@@ -165,6 +166,7 @@ else {
           totalFinal: rows[0].totalFinal, 
           remainingFinal: rows[0].remainingFinal,
           show_solutions: rows[0].show_solutions,
+          name: "final",
         });
       });
       connection.end();
