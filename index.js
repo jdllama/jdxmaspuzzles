@@ -100,7 +100,7 @@ else {
 
       answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
 
-      sendGuess("meta", answer, req.headers['x-forwarded-for']);
+      sendGuess("meta", answer, req.headers['x-forwarded-for'] + " | " + username);
 
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
       connection.connect();
@@ -166,7 +166,7 @@ else {
 
       answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
 
-      sendGuess("final", answer, req.headers['x-forwarded-for']);
+      sendGuess("final", answer, req.headers['x-forwarded-for'] + " | " + username);
 
       var connection = mysql.createConnection(process.env.JAWSDB_URL);
       connection.connect();
@@ -267,7 +267,7 @@ else {
 
           answer = JSON.stringify(answer).replace(/[^a-z]/gi, '').toUpperCase();
 
-          sendGuess(name, answer, req.headers['x-forwarded-for']);
+          sendGuess(name, answer, req.headers['x-forwarded-for'] + " | " + username);
 
           var connection = mysql.createConnection(process.env.JAWSDB_URL);
           connection.connect();
