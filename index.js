@@ -278,7 +278,7 @@ else {
 
         app.get("/" + name + "/ShowMeTheSolution", function(req, res) {
           //var solution = "views/solutions/" + name + ".ejs";
-          console.log(require("fs").resolve("../../" + solutionPath))
+          console.log(require("path").resolve("../../" + solutionPath))
           if(require("fs").existsSync("../../" + solutionPath) || require("fs").existsSync("solutions/" + row.partialname + ".ejs")) {
             //res.render("solutions/" + name + ".ejs");
             res.render("pages/solution", {
