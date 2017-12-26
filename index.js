@@ -249,6 +249,16 @@ else {
           connection.end();
         });
 
+        app.get("/" + name + "/ShowMeTheSolution", function(req, res) {
+          var solutionPath = "solutions/" + name + ".ejs";
+          if(require("fs").existsSync(solutionPath)) {
+            res.render(solutionPath);
+          }
+          else {
+            res.sendStatus(404);
+          }
+        });
+
         app.post("/" + name, function(req, res) {
           var answer = req.body.answer;
           if(!answer) answer="";
