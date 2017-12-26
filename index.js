@@ -250,9 +250,9 @@ else {
         });
 
         app.get("/" + name + "/ShowMeTheSolution", function(req, res) {
-          var solutionPath = "solutions/" + name + ".ejs";
+          var solutionPath = "views/solutions/" + name + ".ejs";
           if(require("fs").existsSync(solutionPath)) {
-            res.render(solutionPath);
+            res.render("solutions/" + name + ".ejs");
           }
           else {
             res.sendStatus(404);
