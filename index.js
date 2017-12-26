@@ -280,7 +280,7 @@ else {
           var solutionPath = "views/solutions/" + name + ".ejs";
           if(require("fs").existsSync(solutionPath)) {
             //res.render("solutions/" + name + ".ejs");
-            res.render("/pages/solution", {
+            res.render("pages/solution", {
               partial: solutionPath,
               name: name,
               title: title,
