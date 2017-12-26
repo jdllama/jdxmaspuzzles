@@ -1,0 +1,21 @@
+This file holds much more than it lets on.<br />
+<br />
+Playing the mp3, you would hear some very peculiar beeping. If you play the mp3 through a spectrogram, you get the following<br />
+<br />
+<img src="../../datasolvespectrogram.png" /><br />
+<br />
+So something requires a password of "VIVIAN" but what? Well, again, the mp3 holds more than you think. Examining it with a hex editor shows it actually contains rar data. If you change the file extension from .mp3 to .rar and open it with a rar-opening program such as WinRAR, it prompts for a password! Try "VIVIAN" and success!<br />
+<br />
+Inside of this rar is a file that says (complete with silly typo) "good news is that the answer to this puzzle is only thee letters long.rar" and inside of THAT rar is another rar that says "bad news, though....rar"<br />
+<br />
+Opening this rar shows 26 mp3s, each of them a voice saying a single letter.<br />
+<br />
+Files 15.mp3 and 19.mp3 appear bigger than the others, so maybe there's something with them. Examining them with hex editors shows png data in 15.mp3, and PDF data in 19.mp3. Rename each mp3 to the extension detected with the hex editor and they open with no issues.<br />
+<br />
+15.png is revealed to be a word search with phoenetic alphabet words to find. However, not all of them are there; FOXTROT, INDIA, ROMEO, SIERRA, and TANGO are missing. These spell out the word "FIRST", which means that whatever letter was played when this was an mp3 is the first letter.<br />
+<br />
+19.pdf is revealed to just be a simple PDF file that says "This letter is second." This means that THIS one is the second letter.<br />
+<br />
+Examining the other files with hex editors shows that 3.mp3 has rar data in it. Go inside it and you'll find nested rar files. Go all the way to the end and you'll find a single file labelled "third".<br />
+<br />
+3.mp3 was "C"; 15.mp3 was "O"; 19.mp3 was "S". This spells out "OSC" which is a weird answer but a valid one.
