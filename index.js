@@ -277,8 +277,8 @@ else {
         });
 
         app.get("/" + name + "/ShowMeTheSolution", function(req, res) {
-          var solutionPath = "views/solutions/" + name + ".ejs";
-          if(require("fs").existsSync(solutionPath)) {
+          var solution = "views/solutions/" + name + ".ejs";
+          if(require("fs").existsSync(solution)) {
             //res.render("solutions/" + name + ".ejs");
             res.render("pages/solution", {
               partial: solutionPath,
