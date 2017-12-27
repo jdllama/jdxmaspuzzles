@@ -1,0 +1,13 @@
+The first step in solving this is to realize that the information they're talking about is hidden in the source code "GIZTCNRTGY2TMLBWGYZDMMRWGYZSYNRWGIZTIMZYGMWDIMZRGMYTGMJWFQ2TGOBTG4ZTINRMGQZTAMZSGMZDMLBWGYYTMMZTGY3CYMJTG4ZTINRSGM"<br />
+<br />
+Now we just take that and go step by step.<br />
+<br />
+<ol>
+    <li>Figure out the base, which is actually Base32, so it now translates to "23163656,66262663,66234383,43131316,53837346,43032326,66163366,13734623"</li>
+    <li>Reverse each individual set of numbers. This leaves you with "65636132,36626266,38343266,61313134,64373835,62323034,66336166,32643731"</li>
+    <li>Now reverse the order of the numbers. That gets you "32643731,66336166,62323034,64373835,61313134,38343266,36626266,65636132"</li>
+    <li>Join them. Now it's "3264373166336166623230346437383561313134383432663662626665636132"</li>
+    <li>The above number is actually hex. Convert it to ASCII, you'll get "2d71f3afb204d785a114842f6bbfeca2"</li>
+    <li>Reverse it. "2acefbb6f248411a587d402bfa3f17d2"</li>
+    <li>Since it's the Montana Delta 5 group, that clues to MD5, which this is an MD5 hash for the word "HUMMINGBIRD"</li>
+</ol>
